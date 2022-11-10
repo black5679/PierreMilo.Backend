@@ -5,6 +5,8 @@ using PierreMilo.Domain.Responses.Usuario;
 using PierreMilo.Domain.Requests.Usuario;
 using PierreMilo.Infrastructure.Common;
 using PierreMilo.Infrastructure.Exceptions;
+using PierreMilo.Domain.Enums;
+using System.Data;
 
 namespace PierreMilo.Infrastructure.Repositories
 {
@@ -29,12 +31,26 @@ namespace PierreMilo.Infrastructure.Repositories
             }
             return response;
         }
-
-        public async Task<Response> Insert(UsuarioInsertRequest request)
+        public async Task<Response> Insert(InsertUsuarioRequest request)
         {
-            var sql = $@"Insert into Usuario (Nombres, Apellidos, Dni, Correo, Celular, Password, Foto, IdRol, UsuarioCreacion, UsuarioModificacion) values (@Nombres, @Apellidos, @Dni, @Correo, @Celular, @Password, @Foto, @IdRol, 1, 1);";
+            var sql = $@"Insert into Usuario (Nombres, Apellidos, Dni, Correo, Celular, Password, Foto, IdRol, UsuarioCreacion, UsuarioModificacion) OUTPUT Inserted.Id values (@Nombres, @Apellidos, @Dni, @Correo, @Celular, @Password, @Foto, @IdRol, 1, 1);";
             using var connection = context.CreateConnection();
             request.Password = Handlers.Encrypt(request.Password);
+            var id = await connection.ExecuteScalarAsync<int>(sql, request);
+            if (id <= 0)
+                throw new InternalServerErrorException("Error al registrar el usuario");
+            sql = $@"Insert into Permiso (IdUsuario, IdVista, Visualizar, Registrar, Editar, Eliminar) values (@IdUsuario, @IdVista, @Visualizar, @Registrar, @Editar, @Eliminar)";
+            foreach (var item in request.Permisos)
+            {
+                item.IdUsuario = id;
+            }
+            await connection.ExecuteAsync(sql, request.Permisos);
+            return new() { Data = request, Message = "Usuario registrado con éxito" };
+        }
+        public async Task<Response> Update(UpdateUsuarioRequest request)
+        {
+            var sql = $@"Update Usuario SET Nombres = @Nombres, Apellidos = @Apellidos, Dni = @Dni, Correo = @Correo, Celular = @Celular, Foto = @Foto, IdRol = @IdRol, UsuarioModificacion = 1 WHERE Id = @Id;";
+            using var connection = context.CreateConnection();
             var affectedRows = await connection.ExecuteAsync(sql, request);
             if (affectedRows <= 0)
                 throw new InternalServerErrorException("Error al registrar el usuario");

@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MediatR;
-using PierreMilo.Application.Queries.Usuario.GetAllUsuarioPaginateQuery;
 using Swashbuckle.AspNetCore.Annotations;
 using PierreMilo.Domain.Responses.Usuario;
 using PierreMilo.Domain.Common;
+using PierreMilo.Application.Queries.Usuario.GetAllUsuarioPaginate;
+using PierreMilo.Application.Commands.Usuario.InsertUsuario;
 
 namespace PierreMilo.Api.Controllers
 {
@@ -22,6 +23,18 @@ namespace PierreMilo.Api.Controllers
         public async Task<IActionResult> GetAllPaginate([FromQuery] GetAllUsuarioPaginateQuery query)
         {
             return Ok(await mediator.Send(query));
+        }
+        [HttpPost]
+        [SwaggerResponse(statusCode: 200, type: typeof(Response))]
+        public async Task<IActionResult> Insert([FromBody] InsertUsuarioCommand command)
+        {
+            return Ok(await mediator.Send(command));
+        }
+        [HttpPut]
+        [SwaggerResponse(statusCode: 200, type: typeof(Response))]
+        public async Task<IActionResult> Update([FromBody] UpdateUsuarioCommand command)
+        {
+            return Ok(await mediator.Send(command));
         }
     }
 }

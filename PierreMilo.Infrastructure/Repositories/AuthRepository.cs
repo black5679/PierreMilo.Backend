@@ -11,11 +11,9 @@ namespace PierreMilo.Infrastructure.Repositories
     public class AuthRepository : IAuthRepository
     {
         readonly DataContext context;
-        readonly IJwtService jwtService;
-        public AuthRepository(DataContext context, IJwtService jwtService)
+        public AuthRepository(DataContext context)
         {
             this.context = context;
-            this.jwtService = jwtService;
         }
         public async Task<UsuarioModel> LoginAdmin(LoginAdminRequest usuario)
         {

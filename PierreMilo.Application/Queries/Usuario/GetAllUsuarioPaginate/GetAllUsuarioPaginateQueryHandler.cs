@@ -3,7 +3,7 @@ using PierreMilo.Domain.Common;
 using PierreMilo.Domain.Repositories;
 using PierreMilo.Domain.Responses.Usuario;
 
-namespace PierreMilo.Application.Queries.Usuario.GetAllUsuarioPaginateQuery
+namespace PierreMilo.Application.Queries.Usuario.GetAllUsuarioPaginate
 {
     internal class GetAllUsuarioPaginateQueryHandler : IRequestHandler<GetAllUsuarioPaginateQuery, PaginateResponse<UsuariosResponse>>
     {

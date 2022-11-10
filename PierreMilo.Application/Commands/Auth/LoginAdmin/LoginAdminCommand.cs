@@ -12,8 +12,6 @@ namespace PierreMilo.Application.Commands.Auth.LoginAdmin
 {
     public class LoginAdminCommand : LoginAdminRequest, IRequest<LoginResponse>
     {
-        public string Correo { get; set; }
-        public string Password { get; set; }
         public class Validator : AbstractValidator<LoginAdminCommand>
         {
             public Validator()

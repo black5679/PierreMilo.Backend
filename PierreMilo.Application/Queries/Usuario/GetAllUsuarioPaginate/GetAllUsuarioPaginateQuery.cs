@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PierreMilo.Application.Queries.Usuario.GetAllUsuarioPaginateQuery
+namespace PierreMilo.Application.Queries.Usuario.GetAllUsuarioPaginate
 {
     public class GetAllUsuarioPaginateQuery : PaginateRequest, IRequest<PaginateResponse<UsuariosResponse>>
     {
