@@ -17,6 +17,6 @@ namespace PierreMilo.Domain.Requests.Usuario
         public string Celular { get; set; }
         public string? Foto { get; set; }
         public int IdRol { get; set; }
-        public List<PermisoModel> Permisos { get; set; }
+        public List<PermisoRequest> Permisos { get; set; }
     }
 }

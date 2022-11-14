@@ -7,6 +7,7 @@ using PierreMilo.Infrastructure.Common;
 using PierreMilo.Infrastructure.Exceptions;
 using PierreMilo.Domain.Enums;
 using System.Data;
+using PierreMilo.Domain.Models;
 
 namespace PierreMilo.Infrastructure.Repositories
 {
@@ -40,11 +41,13 @@ namespace PierreMilo.Infrastructure.Repositories
             if (id <= 0)
                 throw new InternalServerErrorException("Error al registrar el usuario");
             sql = $@"Insert into Permiso (IdUsuario, IdVista, Visualizar, Registrar, Editar, Eliminar) values (@IdUsuario, @IdVista, @Visualizar, @Registrar, @Editar, @Eliminar)";
-            foreach (var item in request.Permisos)
+            List<PermisoModel> models = new();
+            foreach (var permiso in request.Permisos)
             {
-                item.IdUsuario = id;
+                var model = PermisoRequest.ToModel(id,permiso);
+                models.Add(model);
             }
-            await connection.ExecuteAsync(sql, request.Permisos);
+            await connection.ExecuteAsync(sql, models);
             return new() { Data = request, Message = "Usuario registrado con éxito" };
         }
         public async Task<Response> Update(UpdateUsuarioRequest request)
