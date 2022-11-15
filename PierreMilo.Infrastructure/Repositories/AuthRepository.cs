@@ -15,20 +15,20 @@ namespace PierreMilo.Infrastructure.Repositories
         {
             this.context = context;
         }
-        public async Task<UsuarioModel> LoginAdmin(LoginAdminRequest usuario)
+        public async Task<UsuarioModel> LoginAdmin(LoginAdminRequest request)
         {
             string sql = $@"SELECT Id, Password, Correo, IdRol, Estado
                             FROM Usuario
                             WHERE Correo = @Correo AND Status = 1";
             using var connection = context.CreateConnection();
-            var user = await connection.QueryFirstOrDefaultAsync<UsuarioModel>(sql, usuario);
+            var user = await connection.QueryFirstOrDefaultAsync<UsuarioModel>(sql, request);
             if (user != null)
             {
                 if (!user.Estado)
                 {
                     throw new UnauthorizedException("El usuario ha sido desactivado por un administrador");
                 }
-                else if (usuario.Password != Handlers.Decrypt(user.Password))
+                else if (request.Password != Handlers.Decrypt(user.Password))
                 {
                     throw new UnauthorizedException("La contraseña es incorrecta");
                 }

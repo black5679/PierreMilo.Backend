@@ -3,7 +3,7 @@ using PierreMilo.Domain.Common;
 using PierreMilo.Domain.Repositories;
 using PierreMilo.Domain.Responses.Auth;
 
-namespace PierreMilo.Application.Commands.Usuario.InsertUsuario
+namespace PierreMilo.Application.Commands.Usuario.UpdateUsuario
 {
     public class UpdateUsuarioCommandHandler : IRequestHandler<UpdateUsuarioCommand, Response>
     {

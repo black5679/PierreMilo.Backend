@@ -8,6 +8,7 @@ using PierreMilo.Infrastructure.Exceptions;
 using PierreMilo.Domain.Enums;
 using System.Data;
 using PierreMilo.Domain.Models;
+using System.Reflection;
 
 namespace PierreMilo.Infrastructure.Repositories
 {
@@ -54,10 +55,63 @@ namespace PierreMilo.Infrastructure.Repositories
         {
             var sql = $@"Update Usuario SET Nombres = @Nombres, Apellidos = @Apellidos, Dni = @Dni, Correo = @Correo, Celular = @Celular, Foto = @Foto, IdRol = @IdRol, UsuarioModificacion = 1 WHERE Id = @Id;";
             using var connection = context.CreateConnection();
-            var affectedRows = await connection.ExecuteAsync(sql, request);
-            if (affectedRows <= 0)
-                throw new InternalServerErrorException("Error al registrar el usuario");
+            var id = await connection.ExecuteAsync(sql, request);
+            if (id <= 0)
+                throw new InternalServerErrorException("Error al modificar el usuario");
+            sql = $@"Select IdVista from Permiso Where IdUsuario = @IdUsuario";
+            List<PermisoModel> permisos = (await connection.QueryAsync<PermisoModel>(sql, new {IdUsuario = id})).ToList();
+            List<PermisoModel> updateModels = new();
+            List<PermisoModel> insertModels = new();
+            foreach (var req in request.Permisos)
+            {
+                var model = PermisoRequest.ToModel(id, req);
+                for (int i = 0; i < permisos.Count; i++)
+                {
+                    if (permisos[i].IdVista == req.IdVista)
+                    {
+                        updateModels.Add(model);
+                        break;
+                    }
+                    else if (i == permisos.Count - 1)
+                    {
+                        insertModels.Add(model);
+                        break;
+                    }
+                }
+            }
+            sql = $@"Insert into Permiso (IdUsuario, IdVista, Visualizar, Registrar, Editar, Eliminar) values (@IdUsuario, @IdVista, @Visualizar, @Registrar, @Editar, @Eliminar)";
+            await connection.ExecuteAsync(sql, insertModels);
+            sql = $@"Update Permiso set IdUsuario = @IdUsuario, IdVista = @IdVista, Visualizar = @Visualizar, Registrar = @Registrar, Editar = @Editar, Eliminar = @Eliminar Where IdUsuario = @IdUsuario And IdVista = @IdVista";
+            await connection.ExecuteAsync(sql, updateModels);
             return new() { Data = request, Message = "Usuario registrado con éxito" };
+        }
+
+        public async Task<Response> Disable(int idUsuario)
+        {
+            var sql = $@"Update Usuario SET Estado = 0 WHERE Id = @Id;";
+            using var connection = context.CreateConnection();
+            var id = await connection.ExecuteAsync(sql, new {Id = idUsuario});
+            if (id <= 0)
+                throw new InternalServerErrorException("Error al deshabilitar el usuario");
+            return new() { Data = idUsuario, Message = "Usuario deshabilitado con éxito" };
+        }
+        public async Task<Response> Enable(int idUsuario)
+        {
+            var sql = $@"Update Usuario SET Estado = 1 WHERE Id = @Id;";
+            using var connection = context.CreateConnection();
+            var id = await connection.ExecuteAsync(sql, new { Id = idUsuario });
+            if (id <= 0)
+                throw new InternalServerErrorException("Error al habilitar el usuario");
+            return new() { Data = idUsuario, Message = "Usuario habilitado con éxito" };
+        }
+        public async Task<Response> Delete(int idUsuario)
+        {
+            var sql = $@"Update Usuario SET Status = 0 WHERE Id = @Id;";
+            using var connection = context.CreateConnection();
+            var id = await connection.ExecuteAsync(sql, new { Id = idUsuario });
+            if (id <= 0)
+                throw new InternalServerErrorException("Error al eliminar el usuario");
+            return new() { Data = idUsuario, Message = "Usuario eliminado con éxito" };
         }
     }
 }

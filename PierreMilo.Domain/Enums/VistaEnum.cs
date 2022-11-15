@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PierreMilo.Domain.Enums
 {
-    public enum VistaEnum
+    public enum Vista
     {
         Producto = 1,
         MateriaPrima = 2

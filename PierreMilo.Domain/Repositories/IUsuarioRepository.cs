@@ -14,5 +14,8 @@ namespace PierreMilo.Domain.Repositories
         Task<PaginateResponse<UsuariosResponse>> GetAllPaginate(PaginateRequest paginate);
         Task<Response> Insert(InsertUsuarioRequest request);
         Task<Response> Update(UpdateUsuarioRequest request);
+        Task<Response> Disable(int idUsuario);
+        Task<Response> Enable(int idUsuario);
+        Task<Response> Delete(int idUsuario);
     }
 }

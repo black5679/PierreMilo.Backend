@@ -84,8 +84,4 @@ app.UseCors(x => x
                 .AllowAnyHeader());
 app.UseHttpsRedirection();
 app.UseMiddleware<ErrorHandlerMiddleware>(app.Environment);
-//app.UseWhen(context => context.GetEndpoint()?.Metadata?.GetMetadata<CustomAuthorizeAttribute>() is not null, applicationBuilder =>
-//{
-//    applicationBuilder.UseMiddleware<JwtMiddleware>();
-//});
 app.Run();
