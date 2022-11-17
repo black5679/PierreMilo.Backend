@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace PierreMilo.Domain.Responses.Usuario
 {
-    public class UsuariosResponse
+    public class UsuarioResponse
     {
-        public int Id { get; set; }
         public string Nombres { get; set; }
         public string Apellidos { get; set; }
         public string Dni { get; set; }
@@ -16,6 +15,16 @@ namespace PierreMilo.Domain.Responses.Usuario
         public string Celular { get; set; }
         public string Foto { get; set; }
         public bool Estado { get; set; }
-        public string Rol { get; set; }
+        public int IdRol { get; set; }
+        public List<PermisoResponse> Permisos { get; set; }
+    }
+
+    public class PermisoResponse
+    {
+        public int IdVista { get; set; }
+        public bool Visualizar { get; set; }
+        public bool Registrar { get; set; }
+        public bool Editar { get; set; }
+        public bool Eliminar { get; set; }
     }
 }

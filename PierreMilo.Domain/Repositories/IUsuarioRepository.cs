@@ -12,6 +12,7 @@ namespace PierreMilo.Domain.Repositories
     public interface IUsuarioRepository
     {
         Task<PaginateResponse<UsuariosResponse>> GetAllPaginate(PaginateRequest paginate);
+        Task<UsuarioResponse> GetById(int id);
         Task<Response> Insert(InsertUsuarioRequest request);
         Task<Response> Update(UpdateUsuarioRequest request);
         Task<Response> Disable(int idUsuario);

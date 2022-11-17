@@ -10,5 +10,13 @@ namespace PierreMilo.Domain.Common
     {
         public int Limit { get; set; }
         public int Page { get; set; }
+        public Order? Order { get; set; }
+        public string? OrderBy { get; set; }
+    }
+
+    public enum Order
+    {
+        Descendente = 0,
+        Ascendente = 1
     }
 }

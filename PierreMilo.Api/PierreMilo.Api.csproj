@@ -16,4 +16,6 @@
     <ProjectReference Include="..\PierreMilo.Application\PierreMilo.Application.csproj" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1development_1json__JsonSchema="GET /externo/rubros/filtro" /></VisualStudio></ProjectExtensions>
+
 </Project>

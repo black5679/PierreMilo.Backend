@@ -9,6 +9,7 @@ using PierreMilo.Application.Commands.Usuario.EnableUsuario;
 using PierreMilo.Application.Commands.Usuario.DisableUsuario;
 using PierreMilo.Application.Commands.Usuario.UpdateUsuario;
 using PierreMilo.Application.Commands.Usuario.DeleteUsuario;
+using PierreMilo.Application.Queries.Usuario.GetByIdUsuario;
 
 namespace PierreMilo.Api.Controllers
 {
@@ -25,6 +26,12 @@ namespace PierreMilo.Api.Controllers
         [Route("paginate")]
         [SwaggerResponse(statusCode: 200, type: typeof(PaginateResponse<UsuariosResponse>))]
         public async Task<IActionResult> GetAllPaginate([FromQuery] GetAllUsuarioPaginateQuery query)
+        {
+            return Ok(await mediator.Send(query));
+        }
+        [HttpGet("{Id}")]
+        [SwaggerResponse(statusCode: 200, type: typeof(UsuarioResponse))]
+        public async Task<IActionResult> GetById([FromRoute] GetByIdUsuarioQuery query)
         {
             return Ok(await mediator.Send(query));
         }
