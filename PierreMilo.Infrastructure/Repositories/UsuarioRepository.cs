@@ -26,14 +26,14 @@ namespace PierreMilo.Infrastructure.Repositories
             ORDER BY 
                 CASE WHEN @Order = 0 THEN
                     CASE 
-                        WHEN @OrderBy = 'nombres' THEN u.Apellidos
+                        WHEN @OrderBy = 'apellidos' THEN u.Apellidos
                         WHEN @OrderBy = 'nombres' THEN u.Nombres
                         ELSE CONVERT(varchar(50),u.Id)
                     END
                 END DESC,
                 CASE WHEN @Order = 1 THEN
                     CASE @OrderBy
-                        WHEN 'nombres' THEN u.Apellidos
+                        WHEN 'apellidos' THEN u.Apellidos
                         WHEN 'nombres' THEN u.Nombres
                         ELSE CONVERT(varchar(50),u.Id)
                     END

@@ -3,12 +3,12 @@ using MediatR;
 using PierreMilo.Domain.Common;
 using PierreMilo.Domain.Requests.Usuario;
 
-namespace PierreMilo.Application.Commands.Usuario.InsertUsuario
+namespace PierreMilo.Application.Commands.Usuario.UpdateUsuario
 {
-    public class InsertUsuarioCommand : InsertUsuarioRequest, IRequest<Response>
+    public class UpdateUsuarioCommand : UpdateUsuarioRequest, IRequest<Response>
     {
     }
-    public class Validator : AbstractValidator<InsertUsuarioCommand>
+    public class Validator : AbstractValidator<UpdateUsuarioCommand>
     {
         public Validator()
         {

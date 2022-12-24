@@ -1,16 +1,12 @@
 ﻿using MediatR;
-using PierreMilo.Domain.Common;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using PierreMilo.Domain.Responses.Usuario;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PierreMilo.Application.Queries.Usuario.GetByIdUsuario
 {
     public class GetByIdUsuarioQuery : IRequest<UsuarioResponse>
     {
+        [BindRequired]
         public int Id { get; set; }
     }
 }

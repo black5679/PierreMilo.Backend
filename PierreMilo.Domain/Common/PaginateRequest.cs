@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace PierreMilo.Domain.Common
 {
     public class PaginateRequest
     {
+        [BindRequired]
         public int Limit { get; set; }
+        [BindRequired]
         public int Page { get; set; }
         public Order? Order { get; set; }
         public string? OrderBy { get; set; }

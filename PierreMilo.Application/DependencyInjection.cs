@@ -12,6 +12,7 @@ namespace PierreMilo.Application
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddTransient<IJwtService, JwtService>();
             return services;

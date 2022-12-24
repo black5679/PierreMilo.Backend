@@ -11,6 +11,8 @@ namespace PierreMilo.Infrastructure
         {
             services.AddTransient<DataContext>();
             services.AddTransient<IUsuarioRepository, UsuarioRepository>();
+            services.AddTransient<IVistaRepository, VistaRepository>();
+            services.AddTransient<IRolRepository, RolRepository>();
             services.AddTransient<IAuthRepository, AuthRepository>();
         }
     }

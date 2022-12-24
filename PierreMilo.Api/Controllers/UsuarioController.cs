@@ -10,6 +10,7 @@ using PierreMilo.Application.Commands.Usuario.DisableUsuario;
 using PierreMilo.Application.Commands.Usuario.UpdateUsuario;
 using PierreMilo.Application.Commands.Usuario.DeleteUsuario;
 using PierreMilo.Application.Queries.Usuario.GetByIdUsuario;
+using PierreMilo.Domain.Requests.Usuario;
 
 namespace PierreMilo.Api.Controllers
 {
@@ -41,18 +42,19 @@ namespace PierreMilo.Api.Controllers
         {
             return Ok(await mediator.Send(command));
         }
-        [HttpPut]
+        [HttpPut("{Id}")]
         [SwaggerResponse(statusCode: 200, type: typeof(Response))]
-        public async Task<IActionResult> Update([FromBody] UpdateUsuarioCommand command)
+        public async Task<IActionResult> Update([FromRoute]int Id, UpdateUsuarioCommand request)
         {
-            return Ok(await mediator.Send(command));
+            request.Id = Id;
+            return Ok(await mediator.Send(request));
         }
-        [HttpPut]
+        [HttpPut()]
         [Route("disable")]
         [SwaggerResponse(statusCode: 200, type: typeof(Response))]
-        public async Task<IActionResult> Disable([FromBody] DisableUsuarioCommand command)
+        public async Task<IActionResult> Disable(int Id)
         {
-            return Ok(await mediator.Send(command));
+            return Ok(await mediator.Send(new DisableUsuarioCommand { Id = Id }));
         }
         [HttpPut]
         [Route("enable")]
